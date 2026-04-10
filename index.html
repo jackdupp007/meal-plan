@@ -3,356 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bevan's Weekly Vegan Meal Plan</title>
+<title>Bevan's Monthly Vegan Meal Plan</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --green: #2d6a4f;
-    --green-light: #52b788;
-    --green-pale: #d8f3dc;
-    --green-mid: #40916c;
-    --amber: #e76f51;
-    --amber-pale: #fde8e0;
-    --blue: #2c7da0;
-    --blue-pale: #e0f0f8;
-    --cream: #faf8f3;
-    --ink: #1a1a1a;
-    --muted: #6b7280;
-    --border: #e5e0d8;
-    --white: #ffffff;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --green:#2d6a4f;--green-light:#52b788;--green-pale:#d8f3dc;--green-mid:#40916c;
+    --amber:#e76f51;--amber-pale:#fde8e0;--blue:#2c7da0;--blue-pale:#e0f0f8;
+    --purple:#6b48b8;--purple-pale:#ede9fb;
+    --cream:#faf8f3;--ink:#1a1a1a;--muted:#6b7280;--border:#e5e0d8;--white:#fff;
+    --radius:12px;--radius-sm:8px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .hero {
-    background: var(--green);
-    color: white;
-    padding: 40px 32px 32px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -30px; right: -30px;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-  }
-  .hero-label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--green-light);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-  .hero-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .hero-stat {
-    background: rgba(255,255,255,0.1);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-  }
-  .hero-stat-val {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--green-light);
-  }
-  .hero-stat-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2px;
-  }
-  .section {
-    padding: 24px 20px 8px;
-  }
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--green);
-    margin-bottom: 4px;
-  }
-  .section-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);font-size:15px;line-height:1.6;}
+  .hero{background:var(--green);color:white;padding:36px 20px 28px;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
+  .hero-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-light);margin-bottom:6px;font-weight:600;}
+  .hero h1{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;line-height:1.2;margin-bottom:10px;}
+  .hero p{font-size:13px;color:rgba(255,255,255,0.75);max-width:320px;margin-bottom:16px;}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .hero-stat{background:rgba(255,255,255,0.1);border-radius:var(--radius-sm);padding:9px 11px;}
+  .hero-stat-val{font-size:18px;font-weight:600;color:var(--green-light);}
+  .hero-stat-label{font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;}
+
+  /* Main tabs */
+  .main-tabs{display:flex;background:white;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+  .main-tabs::-webkit-scrollbar{display:none;}
+  .main-tab{flex-shrink:0;padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;margin-bottom:-1px;white-space:nowrap;}
+  .main-tab.active{color:var(--green);border-bottom-color:var(--green);}
+
+  .pane{display:none;}.pane.active{display:block;}
+
+  /* Week tabs */
+  .week-tabs{display:flex;gap:8px;padding:16px 20px 0;overflow-x:auto;scrollbar-width:none;}
+  .week-tabs::-webkit-scrollbar{display:none;}
+  .week-btn{flex-shrink:0;padding:7px 16px;border-radius:999px;border:1.5px solid var(--border);background:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .week-btn.active{background:var(--green);color:white;border-color:var(--green);}
 
   /* Day tabs */
-  .day-scroll {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 0 20px 12px;
-    scrollbar-width: none;
-  }
-  .day-scroll::-webkit-scrollbar { display: none; }
-  .day-btn {
-    flex-shrink: 0;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: 1.5px solid var(--border);
-    background: white;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.18s;
-    white-space: nowrap;
-  }
-  .day-btn:hover { border-color: var(--green-light); color: var(--green); }
-  .day-btn.active { background: var(--green); color: white; border-color: var(--green); }
-  .day-btn.wed { border-color: var(--amber); color: var(--amber); }
-  .day-btn.wed.active { background: var(--amber); color: white; border-color: var(--amber); }
+  .day-scroll{display:flex;gap:7px;overflow-x:auto;padding:12px 20px 10px;scrollbar-width:none;}
+  .day-scroll::-webkit-scrollbar{display:none;}
+  .day-btn{flex-shrink:0;padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);background:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+  .day-btn:hover{border-color:var(--green-light);color:var(--green);}
+  .day-btn.active{background:var(--green);color:white;border-color:var(--green);}
+  .day-btn.wed{border-color:var(--amber);color:var(--amber);}
+  .day-btn.wed.active{background:var(--amber);color:white;border-color:var(--amber);}
 
   /* Day card */
-  .day-card {
-    margin: 0 20px 20px;
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .day-head {
-    padding: 16px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-  }
-  .day-head-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--ink);
-  }
-  .day-head-note {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .cal-pill {
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .cal-green { background: var(--green-pale); color: var(--green); }
-  .cal-amber { background: var(--amber-pale); color: var(--amber); }
-  .cal-blue { background: var(--blue-pale); color: var(--blue); }
+  .day-card{margin:0 20px 20px;background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;}
+  .day-head{padding:14px 16px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);}
+  .day-head-name{font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);}
+  .day-head-note{font-size:12px;color:var(--muted);margin-top:2px;}
+  .cal-pill{padding:4px 11px;border-radius:999px;font-size:12px;font-weight:600;flex-shrink:0;margin-left:8px;}
+  .cal-green{background:var(--green-pale);color:var(--green);}
+  .cal-amber{background:var(--amber-pale);color:var(--amber);}
+  .cal-blue{background:var(--blue-pale);color:var(--blue);}
 
-  .meal-item {
-    padding: 13px 18px;
-    border-bottom: 1px solid #f0ede8;
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 10px;
-    align-items: start;
-  }
-  .meal-item:last-child { border-bottom: none; }
-  .meal-type-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    padding-top: 2px;
-    font-weight: 500;
-  }
-  .meal-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 3px;
-  }
-  .meal-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.45;
-  }
-  .meal-serves {
-    font-size: 11px;
-    color: var(--green-mid);
-    margin-top: 3px;
-    font-weight: 500;
-  }
-  .meal-cal {
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    text-align: right;
-    padding-top: 2px;
-  }
-  .tip-strip {
-    margin: 0 18px 14px;
-    padding: 10px 13px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .tip-green { background: var(--green-pale); color: var(--green); }
-  .tip-amber { background: var(--amber-pale); color: #c1440e; }
-  .tip-blue { background: var(--blue-pale); color: var(--blue); }
+  .meal-item{padding:12px 16px;border-bottom:1px solid #f0ede8;display:grid;grid-template-columns:88px 1fr auto;gap:10px;align-items:start;}
+  .meal-item:last-child{border-bottom:none;}
+  .meal-type-label{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-top:2px;font-weight:500;}
+  .meal-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+  .meal-desc{font-size:13px;color:var(--muted);line-height:1.45;}
+  .meal-serves{font-size:11px;color:var(--green-mid);margin-top:3px;font-weight:500;}
+  .meal-cal{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right;padding-top:2px;}
+  .tip-strip{margin:0 16px 13px;padding:9px 12px;border-radius:var(--radius-sm);font-size:13px;line-height:1.5;}
+  .tip-green{background:var(--green-pale);color:var(--green);}
+  .tip-amber{background:var(--amber-pale);color:#c1440e;}
+  .tip-blue{background:var(--blue-pale);color:var(--blue);}
 
-  /* Shopping list */
-  .shop-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 0 20px 24px;
-  }
-  .shop-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .shop-card-head {
-    padding: 10px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    border-bottom: 1px solid var(--border);
-  }
-  .shop-card-head.produce { background: var(--green-pale); color: var(--green); }
-  .shop-card-head.pantry { background: #fff8e6; color: #92580a; }
-  .shop-card-head.protein { background: var(--blue-pale); color: var(--blue); }
-  .shop-card-head.dairy { background: #f3f0fb; color: #5c3fa3; }
-  .shop-card-head.bread { background: #fff0e6; color: #b84f1a; }
-  .shop-card-head.frozen { background: #e8f4fd; color: #1a6fa3; }
-  .shop-items { padding: 10px 14px; }
-  .shop-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 4px 0;
-    border-bottom: 1px solid #f5f3ee;
-    font-size: 13px;
-  }
-  .shop-item:last-child { border-bottom: none; }
-  .shop-item-name { color: var(--ink); }
-  .shop-item-qty { color: var(--muted); font-size: 12px; }
+  /* Shopping */
+  .shop-week-label{padding:16px 20px 4px;font-family:'DM Serif Display',serif;font-size:20px;color:var(--green);}
+  .shop-sub{padding:0 20px 12px;font-size:13px;color:var(--muted);}
+  .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:0 20px 24px;}
+  .shop-card{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .shop-card-head{padding:9px 13px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;border-bottom:1px solid var(--border);}
+  .shop-card-head.produce{background:var(--green-pale);color:var(--green);}
+  .shop-card-head.pantry{background:#fff8e6;color:#92580a;}
+  .shop-card-head.protein{background:var(--blue-pale);color:var(--blue);}
+  .shop-card-head.bread{background:#fff0e6;color:#b84f1a;}
+  .shop-card-head.spice{background:var(--purple-pale);color:var(--purple);}
+  .shop-items{padding:9px 13px;}
+  .shop-item{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;border-bottom:1px solid #f5f3ee;font-size:13px;}
+  .shop-item:last-child{border-bottom:none;}
+  .shop-item-name{color:var(--ink);}
+  .shop-item-qty{color:var(--muted);font-size:12px;}
 
   /* Notes */
-  .notes-card {
-    margin: 0 20px 24px;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-  }
-  .notes-title {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--green);
-    margin-bottom: 10px;
-  }
-  .note-item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .note-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green-light);
-    margin-top: 7px;
-    flex-shrink: 0;
-  }
+  .notes-card{margin:0 20px 20px;background:white;border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px;}
+  .notes-title{font-weight:600;font-size:14px;color:var(--green);margin-bottom:9px;}
+  .note-item{display:flex;gap:9px;margin-bottom:7px;font-size:13px;color:var(--muted);line-height:1.5;}
+  .note-dot{width:6px;height:6px;border-radius:50%;background:var(--green-light);margin-top:7px;flex-shrink:0;}
 
-  .tab-row {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    margin: 0 20px 20px;
-    gap: 0;
-  }
-  .tab-btn {
-    padding: 10px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-    margin-bottom: -1px;
-  }
-  .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
-  .pane { display: none; }
-  .pane.active { display: block; }
+  .section{padding:20px 20px 4px;}
+  .section-title{font-family:'DM Serif Display',serif;font-size:21px;color:var(--green);margin-bottom:3px;}
+  .section-sub{font-size:13px;color:var(--muted);margin-bottom:14px;}
 
-  .footer {
-    background: var(--green);
-    color: rgba(255,255,255,0.7);
-    font-size: 12px;
-    padding: 20px;
-    text-align: center;
-    line-height: 1.6;
-  }
-  .footer strong { color: white; }
+  .footer{background:var(--green);color:rgba(255,255,255,0.7);font-size:12px;padding:18px 20px;text-align:center;line-height:1.6;}
+  .footer strong{color:white;}
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <div class="hero-label">Personalised plan — April 2025</div>
-  <h1>Bevan's Vegan<br>Weight Loss Plan</h1>
-  <p style="font-size:13px;color:rgba(255,255,255,0.75);max-width:320px;">Based on your Garmin data. Dinners feed 3. Latte included weekdays. Target: 123kg → 95kg.</p>
+  <div class="hero-label">28-day plan — vegan · family dinners</div>
+  <h1>Bevan's Monthly<br>Vegan Meal Plan</h1>
+  <p>4 weeks of varied meals. Dinners feed 3. Latte included weekdays. Weekly Woolworths shopping lists.</p>
   <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-val">2,100</div>
-      <div class="hero-stat-label">Weekday cal target</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-val">2,300</div>
-      <div class="hero-stat-label">Walk day target</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-val">~0.6kg</div>
-      <div class="hero-stat-label">Est. loss/week</div>
-    </div>
+    <div class="hero-stat"><div class="hero-stat-val">2,100</div><div class="hero-stat-label">Weekday cals</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">2,300</div><div class="hero-stat-label">Walk day cals</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">~0.6kg</div><div class="hero-stat-label">Est. loss/week</div></div>
   </div>
 </div>
 
-<!-- Main tabs -->
-<div style="padding:20px 20px 0;">
-  <div class="tab-row" style="margin:0 0 20px;">
-    <button class="tab-btn active" onclick="showTab('plan')">Meal Plan</button>
-    <button class="tab-btn" onclick="showTab('shop')">Shopping List</button>
-    <button class="tab-btn" onclick="showTab('tips')">Tips & Notes</button>
-  </div>
+<div class="main-tabs">
+  <button class="main-tab active" onclick="showMain('plan',this)">Meal Plan</button>
+  <button class="main-tab" onclick="showMain('shop',this)">Shopping Lists</button>
+  <button class="main-tab" onclick="showMain('tips',this)">Tips & Notes</button>
 </div>
 
 <!-- PLAN PANE -->
 <div class="pane active" id="pane-plan">
-  <div class="section">
-    <div class="section-title">Weekly meals</div>
-    <div class="section-sub">Tap a day to view. Dinners serve 3 people. Latte included weekday mornings.</div>
+  <div class="week-tabs" id="week-tabs"></div>
+  <div class="section" style="padding-bottom:0;">
+    <div class="section-sub" id="week-label"></div>
   </div>
   <div class="day-scroll" id="day-tabs"></div>
   <div id="day-content"></div>
@@ -360,303 +132,449 @@
 
 <!-- SHOP PANE -->
 <div class="pane" id="pane-shop">
-  <div class="section">
-    <div class="section-title">Woolworths shopping list</div>
-    <div class="section-sub">Full week. Check your pantry first — you may already have staples.</div>
-  </div>
-  <div class="shop-grid">
-    <div class="shop-card">
-      <div class="shop-card-head produce">Fresh produce</div>
-      <div class="shop-items">
-        <div class="shop-item"><span class="shop-item-name">Bananas</span><span class="shop-item-qty">1 bunch</span></div>
-        <div class="shop-item"><span class="shop-item-name">Apples</span><span class="shop-item-qty">6</span></div>
-        <div class="shop-item"><span class="shop-item-name">Oranges</span><span class="shop-item-qty">4</span></div>
-        <div class="shop-item"><span class="shop-item-name">Blueberries</span><span class="shop-item-qty">2 punnets</span></div>
-        <div class="shop-item"><span class="shop-item-name">Mixed berries</span><span class="shop-item-qty">1 punnet</span></div>
-        <div class="shop-item"><span class="shop-item-name">Cherry tomatoes</span><span class="shop-item-qty">2 punnets</span></div>
-        <div class="shop-item"><span class="shop-item-name">Baby spinach</span><span class="shop-item-qty">200g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Rocket</span><span class="shop-item-qty">120g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Kale</span><span class="shop-item-qty">1 bunch</span></div>
-        <div class="shop-item"><span class="shop-item-name">Broccolini</span><span class="shop-item-qty">2 bunches</span></div>
-        <div class="shop-item"><span class="shop-item-name">Capsicum (mixed)</span><span class="shop-item-qty">4</span></div>
-        <div class="shop-item"><span class="shop-item-name">Zucchini</span><span class="shop-item-qty">3</span></div>
-        <div class="shop-item"><span class="shop-item-name">Sweet potato</span><span class="shop-item-qty">1.5kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Cucumber</span><span class="shop-item-qty">2</span></div>
-        <div class="shop-item"><span class="shop-item-name">Carrots</span><span class="shop-item-qty">1kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Red onions</span><span class="shop-item-qty">4</span></div>
-        <div class="shop-item"><span class="shop-item-name">Brown onions</span><span class="shop-item-qty">3</span></div>
-        <div class="shop-item"><span class="shop-item-name">Garlic bulbs</span><span class="shop-item-qty">2</span></div>
-        <div class="shop-item"><span class="shop-item-name">Fresh ginger</span><span class="shop-item-qty">1 piece</span></div>
-        <div class="shop-item"><span class="shop-item-name">Portobello mushrooms</span><span class="shop-item-qty">500g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Leek</span><span class="shop-item-qty">2</span></div>
-        <div class="shop-item"><span class="shop-item-name">Potato</span><span class="shop-item-qty">4 medium</span></div>
-        <div class="shop-item"><span class="shop-item-name">Avocado</span><span class="shop-item-qty">3</span></div>
-        <div class="shop-item"><span class="shop-item-name">Coriander</span><span class="shop-item-qty">1 bunch</span></div>
-        <div class="shop-item"><span class="shop-item-name">Lemon</span><span class="shop-item-qty">3</span></div>
-        <div class="shop-item"><span class="shop-item-name">Lime</span><span class="shop-item-qty">3</span></div>
-        <div class="shop-item"><span class="shop-item-name">Snow peas</span><span class="shop-item-qty">150g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Bok choy</span><span class="shop-item-qty">2 bunches</span></div>
-      </div>
-    </div>
-
-    <div class="shop-card">
-      <div class="shop-card-head protein">Protein & chilled</div>
-      <div class="shop-items">
-        <div class="shop-item"><span class="shop-item-name">Firm tofu</span><span class="shop-item-qty">3 × 300g packs</span></div>
-        <div class="shop-item"><span class="shop-item-name">Silken tofu</span><span class="shop-item-qty">1 pack</span></div>
-        <div class="shop-item"><span class="shop-item-name">Edamame (shelled)</span><span class="shop-item-qty">400g frozen</span></div>
-        <div class="shop-item"><span class="shop-item-name">Hummus</span><span class="shop-item-qty">400g tub</span></div>
-        <div class="shop-item"><span class="shop-item-name">Oat milk (barista)</span><span class="shop-item-qty">2L carton ×2</span></div>
-        <div class="shop-item"><span class="shop-item-name">Vegan butter</span><span class="shop-item-qty">250g (Nuttelex)</span></div>
-      </div>
-    </div>
-
-    <div class="shop-card">
-      <div class="shop-card-head pantry">Tins & pantry</div>
-      <div class="shop-items">
-        <div class="shop-item"><span class="shop-item-name">Red lentils</span><span class="shop-item-qty">1kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Green/brown lentils</span><span class="shop-item-qty">500g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Chickpeas (tins)</span><span class="shop-item-qty">3 × 400g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Black beans (tins)</span><span class="shop-item-qty">2 × 400g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Cannellini beans (tins)</span><span class="shop-item-qty">2 × 400g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Crushed tomatoes (tins)</span><span class="shop-item-qty">4 × 400g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Coconut milk (light)</span><span class="shop-item-qty">2 × 400ml</span></div>
-        <div class="shop-item"><span class="shop-item-name">Veg stock (liquid)</span><span class="shop-item-qty">1L carton</span></div>
-        <div class="shop-item"><span class="shop-item-name">Brown rice</span><span class="shop-item-qty">1kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Basmati rice</span><span class="shop-item-qty">1kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Quinoa</span><span class="shop-item-qty">500g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Rolled oats</span><span class="shop-item-qty">1kg bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Wholegrain pasta</span><span class="shop-item-qty">500g</span></div>
-        <div class="shop-item"><span class="shop-item-name">Small corn tortillas</span><span class="shop-item-qty">1 pack (12)</span></div>
-        <div class="shop-item"><span class="shop-item-name">Rice cakes (plain)</span><span class="shop-item-qty">1 pack</span></div>
-        <div class="shop-item"><span class="shop-item-name">Natural peanut butter</span><span class="shop-item-qty">375g jar</span></div>
-        <div class="shop-item"><span class="shop-item-name">Almond butter</span><span class="shop-item-qty">250g jar</span></div>
-        <div class="shop-item"><span class="shop-item-name">Tahini</span><span class="shop-item-qty">300g jar</span></div>
-        <div class="shop-item"><span class="shop-item-name">Tamari / soy sauce</span><span class="shop-item-qty">250ml bottle</span></div>
-        <div class="shop-item"><span class="shop-item-name">Olive oil</span><span class="shop-item-qty">500ml</span></div>
-        <div class="shop-item"><span class="shop-item-name">Baked beans (no-sugar)</span><span class="shop-item-qty">2 × 420g tins</span></div>
-        <div class="shop-item"><span class="shop-item-name">Chia seeds</span><span class="shop-item-qty">200g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Mixed nuts</span><span class="shop-item-qty">200g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Pumpkin seeds</span><span class="shop-item-qty">150g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Sunflower seeds</span><span class="shop-item-qty">150g bag</span></div>
-        <div class="shop-item"><span class="shop-item-name">Medjool dates</span><span class="shop-item-qty">200g pack</span></div>
-        <div class="shop-item"><span class="shop-item-name">Vegan green curry paste</span><span class="shop-item-qty">1 jar (Maesri)</span></div>
-        <div class="shop-item"><span class="shop-item-name">Salsa (jar)</span><span class="shop-item-qty">1 jar</span></div>
-        <div class="shop-item"><span class="shop-item-name">Corn kernels (tin)</span><span class="shop-item-qty">1 × 420g</span></div>
-      </div>
-    </div>
-
-    <div class="shop-card">
-      <div class="shop-card-head bread">Bread & bakery</div>
-      <div class="shop-items">
-        <div class="shop-item"><span class="shop-item-name">Wholegrain bread loaf</span><span class="shop-item-qty">1 loaf</span></div>
-        <div class="shop-item"><span class="shop-item-name">Rye bread loaf</span><span class="shop-item-qty">1 loaf</span></div>
-        <div class="shop-item"><span class="shop-item-name">Wholegrain wraps</span><span class="shop-item-qty">1 pack (8)</span></div>
-      </div>
-      <div class="shop-card-head dairy" style="margin-top:1px;">Spices (check pantry)</div>
-      <div class="shop-items">
-        <div class="shop-item"><span class="shop-item-name">Cumin (ground)</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Turmeric</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Smoked paprika</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Cinnamon</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Chilli flakes</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Garam masala</span><span class="shop-item-qty">if needed</span></div>
-        <div class="shop-item"><span class="shop-item-name">Muesli (low sugar)</span><span class="shop-item-qty">500g bag</span></div>muesli
-      </div>
-    </div>
-  </div>
-
-  <div class="notes-card">
-    <div class="notes-title">Shopping tips for Woolworths</div>
-    <div class="note-item"><div class="note-dot"></div><span>Tofu: Woolworths stocks <strong>Vitasoy or Evergreen</strong> firm tofu in the fridge section near produce. Buy 3 packs for the week.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Oat milk: <strong>Oatly Barista</strong> or <strong>Minor Figures</strong> in the long-life milk aisle. Barista versions froth better for your latte habit at home on weekends.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Vegan curry paste: Check the Asian foods aisle for <strong>Maesri green curry paste</strong> — confirm vegan on label (no shrimp paste).</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Medjool dates are in the dried fruit aisle — used for bliss ball prep on Sundays.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Frozen edamame is in the freezer section. Shelled is easiest — just microwave and salt.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Estimated weekly shop cost: roughly <strong>$120–$160 AUD</strong> depending on what you already have in the pantry.</span></div>
-  </div>
+  <div id="shop-content"></div>
 </div>
 
 <!-- TIPS PANE -->
 <div class="pane" id="pane-tips">
-  <div class="section">
-    <div class="section-title">Your plan at a glance</div>
-    <div class="section-sub">Key rules to keep it simple and sustainable.</div>
-  </div>
-
+  <div class="section"><div class="section-title">Your plan at a glance</div></div>
   <div class="notes-card">
-    <div class="notes-title">Calorie targets (from your Garmin data)</div>
-    <div class="note-item"><div class="note-dot"></div><span>Your real resting burn is <strong>2,531 cal/day</strong> — higher than average, which is good news.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Sedentary weekday total burn ~2,800–2,900. Eat <strong>2,100 cal</strong> = ~700–800 cal deficit.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Dog walk days (~250 extra burned): eat up to <strong>2,300 cal</strong>. Trust your Garmin number.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Wednesday (Warhammer night): <strong>2,100 cal</strong> with a lighter lunch to bank room for fast food.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Weekend: aim for <strong>2,100 cal</strong> unless you do a longer walk/hike, then up to 2,400.</span></div>
+    <div class="notes-title">Calorie targets (from your Garmin)</div>
+    <div class="note-item"><div class="note-dot"></div><span>Resting burn <strong>2,531 cal/day</strong> — higher than average, works in your favour.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Sedentary weekday: eat <strong>2,100 cal</strong> = ~700–800 cal daily deficit.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Dog walk days: eat up to <strong>2,300 cal</strong>. Trust your Garmin active number.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Wednesday (Warhammer): <strong>2,100 cal</strong> — lighter lunch banks room for fast food.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Hike or active weekend day: up to <strong>2,400 cal</strong>.</span></div>
   </div>
-
   <div class="notes-card">
-    <div class="notes-title">Your McDonald's latte — already included</div>
-    <div class="note-item"><div class="note-dot"></div><span>Regular caramel soy latte = <strong>~230 cal</strong>. Already built into all weekday calorie budgets.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>This means weekday breakfasts in the plan are intentionally lighter — the latte IS your morning kickstart.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Switching from large to regular saves ~100 cal/day = 500 cal over a working week. Worth it.</span></div>
+    <div class="notes-title">McDonald's latte — already counted</div>
+    <div class="note-item"><div class="note-dot"></div><span>Regular caramel soy latte = <strong>~230 cal</strong>. Built into every weekday budget.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Weekday breakfasts are intentionally lighter because the latte IS your morning meal.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Saves ~100 cal/day vs large = 500 cal saved across the working week.</span></div>
   </div>
-
   <div class="notes-card">
-    <div class="notes-title">Post-bowel surgery considerations</div>
-    <div class="note-item"><div class="note-dot"></div><span>Introduce high-fibre foods (lentils, beans, bran) <strong>gradually</strong>. Start with smaller portions and build up over the first 2–3 weeks.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Drink <strong>2–2.5L water per day</strong>. Fibre without fluid causes discomfort, especially post-resection.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Smaller, more frequent meals may suit you better than 3 large ones. Adjust snack sizes up if needed.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>If any food causes bloating or discomfort, swap it out and mention it to your GP or dietitian.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Consider a consult with a bowel-focused dietitian — they can tailor the fibre approach specifically to your resection.</span></div>
+    <div class="notes-title">Post-bowel surgery — important</div>
+    <div class="note-item"><div class="note-dot"></div><span>Introduce high-fibre foods (lentils, beans) <strong>gradually</strong> — especially in Week 1.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Drink <strong>2–2.5L water per day</strong>. Fibre without fluid causes discomfort.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Smaller, more frequent meals may suit you better than large ones.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>If any meal causes bloating, swap it and note it in Journable.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Consider a bowel-focused dietitian consult — they can fine-tune the fibre approach for your resection.</span></div>
   </div>
-
   <div class="notes-card">
-    <div class="notes-title">Sunday batch prep (30–40 min)</div>
-    <div class="note-item"><div class="note-dot"></div><span>Overnight oats for Monday & Thursday — prep 2 jars Sunday night. Takes 5 minutes.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Big pot of soup (leek, potato, pea) — makes lunch for Sunday + 2 more days.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Date-and-oat bliss balls (8–10) — blend oats, dates, peanut butter, roll. Snacks for the week.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Cook a big batch of brown rice — stays in fridge 4 days, speeds up weeknight dinners.</span></div>
+    <div class="notes-title">Sunday batch prep (40 min each week)</div>
+    <div class="note-item"><div class="note-dot"></div><span>2 jars of overnight oats for Mon & Thu — 5 minutes.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Big pot of soup for the week's lunches.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>8–10 date-and-oat bliss balls — blend, roll, store in fridge.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Batch of brown rice — stays fresh in fridge for 4 days.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Roast a tray of sweet potato and capsicum — use across 2–3 dinners/lunches.</span></div>
   </div>
-
   <div class="notes-card">
     <div class="notes-title">Journable logging tips</div>
-    <div class="note-item"><div class="note-dot"></div><span>Log <strong>before or during</strong> eating, not after — it keeps portions honest.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Log your latte first thing. It sets the tone for the day.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Don't aim for perfection — a day where you log everything and go slightly over is better than a day you don't log at all.</span></div>
-    <div class="note-item"><div class="note-dot"></div><span>Sync your Garmin so active calories auto-adjust your daily budget.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Log <strong>before or during</strong> eating — not after. Keeps portions honest.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Log the latte first thing every morning to set the day's tone.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>A day where you log everything and go slightly over beats a day you don't log at all.</span></div>
+    <div class="note-item"><div class="note-dot"></div><span>Sync Garmin so active calories auto-adjust your daily budget.</span></div>
   </div>
-
-  <div style="height:24px;"></div>
+  <div style="height:20px;"></div>
 </div>
 
-<div class="footer">
-  <strong>This plan is a guide, not a prescription.</strong><br>
-  Adjust portions as you go. If something isn't working, swap it. Check with your GP before major dietary changes given your surgery history.
-</div>
+<div class="footer"><strong>This plan is a guide, not a prescription.</strong><br>Adjust as you go. Swap meals that don't work. Check with your GP before major dietary changes given your surgery history.</div>
 
 <script>
-const days = [
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const weeks = [
+  { label: "Week 1", theme: "Getting started — gentle intro to high-fibre vegan eating" },
+  { label: "Week 2", theme: "Building variety — new flavours, same structure" },
+  { label: "Week 3", theme: "Finding your rhythm — familiar favourites plus new dinners" },
+  { label: "Week 4", theme: "Full stride — confident with portions and prep" },
+];
+
+// Reusable meal building blocks
+const latte = { type:"Latte", name:"McDonald's regular caramel soy latte", desc:"Your morning ritual — already counted in your daily budget.", serves:null, cals:230 };
+const homeCoffee = { type:"Coffee", name:"Oat milk flat white (home)", desc:"Double shot, barista oat milk steamed at home.", serves:null, cals:90 };
+
+const snacks = {
+  applePB: { type:"Snack", name:"Apple & peanut butter", desc:"1 medium apple, 1 tbsp natural peanut butter.", serves:null, cals:160 },
+  hummusVeg: { type:"Snack", name:"Hummus & veggie sticks", desc:"3 tbsp hummus with cucumber, carrot and capsicum strips.", serves:null, cals:160 },
+  edamame: { type:"Snack", name:"Edamame", desc:"100g shelled edamame, microwaved and lightly salted.", serves:null, cals:120 },
+  blissBall: { type:"Snack", name:"Bliss ball (homemade)", desc:"1–2 date-and-oat bliss balls from Sunday's batch. ~100 cal each.", serves:null, cals:100 },
+  banana: { type:"Snack", name:"Banana", desc:"1 medium banana.", serves:null, cals:90 },
+  nutsOrange: { type:"Snack", name:"Orange & walnuts", desc:"1 orange and 15g walnuts.", serves:null, cals:160 },
+  riceCakeHummus: { type:"Snack", name:"Rice cakes & hummus", desc:"2 plain rice cakes, 2 tbsp hummus.", serves:null, cals:130 },
+  riceCakeAvo: { type:"Snack", name:"Rice cakes & avocado", desc:"2 rice cakes, ½ avocado mashed, chilli flakes, lemon.", serves:null, cals:180 },
+  walkBonus: { type:"Walk bonus", name:"Extra snack (earned)", desc:"Your dog walk earns ~200–300 extra cal. Use on fruit, a bliss ball or a slightly larger dinner.", serves:null, cals:200 },
+  nutsAndFruit: { type:"Snack", name:"Mixed nuts & dried fruit", desc:"20g mixed nuts with a few pieces of dried mango.", serves:null, cals:160 },
+};
+
+const breakfasts = {
+  overnightOats: { type:"Breakfast", name:"Overnight oats", desc:"80g rolled oats soaked overnight in oat milk, topped with blueberries and 1 tbsp chia seeds. Prep Sunday night.", serves:null, cals:330 },
+  overnightOatsBanana: { type:"Breakfast", name:"Overnight oats with banana", desc:"80g oats soaked in oat milk overnight, topped with sliced banana and cinnamon.", serves:null, cals:340 },
+  smoothieBowl: { type:"Breakfast", name:"Banana smoothie bowl", desc:"Blend 1 frozen banana, big handful spinach, 150ml oat milk. Pour into bowl, top with 30g muesli and berries.", serves:null, cals:360 },
+  avoToast: { type:"Breakfast", name:"Avo toast with seeds", desc:"2 slices rye bread, ½ avocado, cherry tomatoes, pumpkin seeds, lemon squeeze.", serves:null, cals:390 },
+  pbBananaToast: { type:"Breakfast", name:"Peanut butter & banana toast", desc:"2 slices wholegrain toast, 2 tbsp natural peanut butter, 1 sliced banana.", serves:null, cals:400 },
+  bakedBeans: { type:"Breakfast", name:"Baked beans on toast", desc:"½ tin low-sugar baked beans on 2 slices rye toast with sliced tomato and black pepper.", serves:null, cals:380 },
+  pancakes: { type:"Breakfast", name:"Banana oat pancakes", desc:"Mash 2 bananas, mix with 80g oats and 100ml oat milk. Cook small pancakes. Top with berries and 1 tsp maple syrup.", serves:null, cals:420 },
+  mushroomToast: { type:"Breakfast", name:"Sautéed mushrooms on toast", desc:"200g mushrooms, garlic, thyme, lemon in olive oil. Serve on 2 slices sourdough rye.", serves:null, cals:370 },
+  porridge: { type:"Breakfast", name:"Warm spiced porridge", desc:"80g oats cooked in oat milk, topped with stewed apple, cinnamon and 1 tbsp mixed seeds.", serves:null, cals:360 },
+  granolaBowl: { type:"Breakfast", name:"Muesli & berry bowl", desc:"60g low-sugar muesli with oat milk, topped with fresh strawberries and blueberries.", serves:null, cals:340 },
+};
+
+const lunches = {
+  lentilSoup: { type:"Lunch", name:"Big red lentil soup", desc:"Large bowl of red lentil, crushed tomato and spinach soup with 1 slice wholegrain bread.", serves:null, cals:420 },
+  chickpeaWrap: { type:"Lunch", name:"Chickpea salad wrap", desc:"Wholegrain wrap with mashed chickpeas (cumin, lemon), cucumber, cherry tomatoes, red onion, tahini drizzle.", serves:null, cals:450 },
+  minestrone: { type:"Lunch", name:"Veggie minestrone", desc:"Large bowl with wholegrain pasta, zucchini, cannellini beans, crushed tomato and fresh basil.", serves:null, cals:420 },
+  leftoverMinestrone: { type:"Lunch", name:"Leftover minestrone", desc:"Second serve from yesterday's batch, with a slice of rye bread if hungry.", serves:null, cals:420 },
+  quinoaSalad: { type:"Lunch", name:"Quinoa & roasted veg salad (light)", desc:"80g cooked quinoa, leftover roasted sweet potato and capsicum, kale, lemon dressing. Light to bank cals for tonight.", serves:null, cals:380 },
+  leekSoup: { type:"Lunch", name:"Leek, potato & pea soup", desc:"From Sunday's batch — thick, warming and filling. Reheat from fridge.", serves:null, cals:340 },
+  tabbouleh: { type:"Lunch", name:"Bulgur wheat tabbouleh", desc:"Bulgur wheat, parsley, mint, tomato, cucumber, lemon and olive oil. Simple and fresh.", serves:null, cals:390 },
+  sushiRice: { type:"Lunch", name:"Brown rice nori bowl", desc:"Brown rice, shredded carrot, cucumber, edamame, avocado, tamari and sesame seeds.", serves:null, cals:430 },
+  blackBeanSoup: { type:"Lunch", name:"Black bean soup", desc:"Batch from Sunday — black beans, cumin, garlic, lime, crushed tomato. Hearty and high protein.", serves:null, cals:400 },
+  veggieWrap: { type:"Lunch", name:"Roasted veg & hummus wrap", desc:"Wholegrain wrap with leftover roasted veg, hummus, rocket and a squeeze of lemon.", serves:null, cals:430 },
+  dahlia: { type:"Lunch", name:"Leftover dhal (batch)", desc:"Red lentil dhal from Sunday — reheated, served with a slice of rye bread.", serves:null, cals:410 },
+  pearRocketSalad: { type:"Lunch", name:"Pear, rocket & walnut salad", desc:"Rocket, sliced pear, 20g walnuts, red onion, lemon-olive oil dressing. Add ½ tin chickpeas for protein.", serves:null, cals:420 },
+  tomatoSoup: { type:"Lunch", name:"Roasted tomato & capsicum soup", desc:"Batch from Sunday — blended roasted tomato, capsicum, garlic and veg stock. With rye toast.", serves:null, cals:360 },
+  sweetPotatoWrap: { type:"Lunch", name:"Sweet potato & black bean wrap", desc:"Wholegrain wrap with mashed sweet potato, black beans, smoked paprika, coriander and lime.", serves:null, cals:450 },
+};
+
+const wedFastFood = { type:"Warhammer night", name:"Fast food — planned flex", desc:"Budget ~1,000–1,100 cal for the night. Best options: veggie/bean burger or wrap, side salad or corn instead of large chips. Avoid sugary drinks — water or diet cola.", serves:null, cals:1020 };
+
+// ─── WEEK 1 ──────────────────────────────────────────────────────────────────
+const week1 = [
+  { name:"Monday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.overnightOats, snacks.applePB, lunches.lentilSoup, snacks.hummusVeg,
+      { type:"Dinner", name:"Tofu & veg stir-fry with brown rice", desc:"450g firm tofu (cubed, pan-fried until golden) with broccolini, capsicum, bok choy, tamari, garlic and ginger. Serve over 240g cooked brown rice.", serves:"Serves 3", cals:800 }],
+    tip:"Prep overnight oats Sunday night — takes 5 minutes and sets Monday up perfectly.", tipType:"green" },
+
+  { name:"Tuesday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.smoothieBowl, snacks.riceCakeAvo, lunches.chickpeaWrap, snacks.edamame,
+      { type:"Dinner", name:"Black bean tacos", desc:"Drain and heat 2 × 400g tins black beans with smoked paprika, cumin, garlic. Serve in 6 small corn tortillas with shredded cabbage, salsa, avocado and lime.", serves:"Serves 3", cals:760 }, snacks.walkBonus],
+    tip:"Tuesday walk day — log it on your Garmin and use the extra budget mindfully.", tipType:"blue" },
+
+  { name:"Wednesday", type:"wed", cals:2100, walkDay:false, note:"Warhammer night · Latte included · Light lunch",
+    meals:[ latte, breakfasts.pbBananaToast, snacks.banana, lunches.quinoaSalad, wedFastFood ],
+    tip:"Wednesday is your planned flex night — the light lunch has already banked the calories.", tipType:"amber" },
+
+  { name:"Thursday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.overnightOatsBanana, snacks.nutsOrange, lunches.minestrone, snacks.riceCakeHummus,
+      { type:"Dinner", name:"Baked sweet potato bowls", desc:"3 large sweet potatoes, baked. Top with spiced black beans (1 tin, cumin, garlic), corn, guacamole (1 avocado), coriander and lime.", serves:"Serves 3", cals:810 }, snacks.walkBonus],
+    tip:"Batch cook minestrone today — it covers Thursday and Friday lunches.", tipType:"green" },
+
+  { name:"Friday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.avoToast, snacks.blissBall, lunches.leftoverMinestrone, snacks.banana,
+      { type:"Dinner", name:"Mushroom & lentil ragu with pasta", desc:"Sauté 500g portobello mushrooms with onion, garlic, carrot, zucchini. Add 1 tin crushed tomatoes, 200g cooked green lentils, dried herbs. Simmer 20 min. Serve over 300g cooked wholegrain pasta.", serves:"Serves 3", cals:870 }],
+    tip:"End of week — the ragu is forgiving. Swap pasta for rice if preferred.", tipType:"green" },
+
+  { name:"Saturday", type:"normal", cals:2300, walkDay:true, note:"Walk day · No latte · Family day",
+    meals:[ homeCoffee, breakfasts.pancakes, snacks.applePB, lunches.tabbouleh, snacks.nutsAndFruit,
+      { type:"Dinner", name:"Thai green tofu curry", desc:"Fry 450g firm tofu until golden. Add 2 tbsp vegan green curry paste, 2 tins light coconut milk, zucchini, snow peas, tamari and lime. Simmer 15 min. Serve over jasmine rice.", serves:"Serves 3", cals:790 }, snacks.walkBonus],
+    tip:"Saturday is your most flexible day. A dog walk earns you an evening treat.", tipType:"blue" },
+
+  { name:"Sunday", type:"normal", cals:2100, walkDay:false, note:"Prep day · No latte",
+    meals:[ homeCoffee, breakfasts.bakedBeans, snacks.applePB, lunches.leekSoup, snacks.blissBall,
+      { type:"Dinner", name:"Red lentil dhal with basmati rice", desc:"Fry onion, garlic, ginger. Add cumin, turmeric, garam masala. Add 300g red lentils, 2 tins crushed tomatoes, 600ml water. Simmer 25 min. Stir through spinach. Serve over basmati rice. Makes extra for Mon lunch.", serves:"Serves 3 + leftovers", cals:860 },
+      { type:"Prep", name:"Sunday batch cook", desc:"Overnight oats (2 jars). Bliss balls (8–10). Batch of brown rice. Roast sweet potato + capsicum tray. Leek & pea soup for lunches. ~40 minutes total.", serves:null, cals:0 }],
+    tip:"Sunday prep is the engine of the whole week. 40 minutes now saves you every evening.", tipType:"green" },
+];
+
+// ─── WEEK 2 ──────────────────────────────────────────────────────────────────
+const week2 = [
+  { name:"Monday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.porridge, snacks.blissBall, lunches.dahlia, snacks.hummusVeg,
+      { type:"Dinner", name:"Chickpea & spinach curry", desc:"Fry onion, garlic, ginger. Add 2 tsp curry powder, 1 tsp cumin, 1 tsp turmeric. Add 2 tins chickpeas, 1 tin crushed tomatoes, 200ml coconut milk, big bag of spinach. Simmer 20 min. Serve over basmati rice.", serves:"Serves 3", cals:820 }],
+    tip:"Leftover dhal from Sunday makes a great Monday lunch — zero effort.", tipType:"green" },
+
+  { name:"Tuesday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.smoothieBowl, snacks.nutsOrange, lunches.sushiRice, snacks.edamame,
+      { type:"Dinner", name:"Lentil & vegetable shepherd's pie", desc:"Green lentils, carrot, celery, onion, peas in tomato-herb sauce. Top with mashed potato (4 potatoes, oat milk, vegan butter). Bake 25 min at 200°C until golden.", serves:"Serves 3", cals:850 }, snacks.walkBonus],
+    tip:"The shepherd's pie can be made the night before and reheated — great for a busy Tuesday.", tipType:"blue" },
+
+  { name:"Wednesday", type:"wed", cals:2100, walkDay:false, note:"Warhammer night · Latte included · Light lunch",
+    meals:[ latte, breakfasts.avoToast, snacks.banana, lunches.quinoaSalad, wedFastFood ],
+    tip:"Light avo toast and a light lunch keeps your Wednesday well within budget.", tipType:"amber" },
+
+  { name:"Thursday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.overnightOats, snacks.riceCakeAvo, lunches.blackBeanSoup, snacks.blissBall,
+      { type:"Dinner", name:"Tofu poke bowl", desc:"Pan-fry 450g marinated tofu (tamari, ginger, garlic). Serve over 240g warm brown rice with shredded carrot, cucumber, edamame, sliced avocado, pickled red onion and sesame-tahini dressing.", serves:"Serves 3", cals:830 }, snacks.walkBonus],
+    tip:"Batch the black bean soup Sunday night — it reheats beautifully for Thu & Fri.", tipType:"green" },
+
+  { name:"Friday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.mushroomToast, snacks.banana, lunches.veggieWrap, snacks.blissBall,
+      { type:"Dinner", name:"Vegan bolognese with pasta", desc:"Fry onion, garlic, carrot and celery. Add 300g red lentils, 2 tins crushed tomatoes, 1 tbsp tomato paste, dried oregano, splash of veg stock. Simmer 30 min. Serve over 300g cooked wholegrain spaghetti.", serves:"Serves 3", cals:860 }],
+    tip:"Lentil bolognese is a crowd-pleaser — your son will likely enjoy this one.", tipType:"green" },
+
+  { name:"Saturday", type:"normal", cals:2300, walkDay:true, note:"Walk day · No latte · Family day",
+    meals:[ homeCoffee, breakfasts.pancakes, snacks.applePB,
+      { type:"Lunch", name:"Big Buddha bowl", desc:"Brown rice, roasted capsicum and sweet potato, tinned chickpeas (tossed in paprika and olive oil, roasted 20 min), rocket, tahini drizzle.", serves:"Serves 3 (lunch together!)", cals:480 },
+      snacks.nutsAndFruit,
+      { type:"Dinner", name:"Vegetable paella", desc:"Sauté onion, capsicum, garlic in olive oil. Add 300g paella/arborio rice, 1 tsp smoked paprika, pinch saffron, 900ml veg stock. Add cherry tomatoes, zucchini, frozen peas. Simmer 20 min until rice absorbs stock.", serves:"Serves 3", cals:800 }, snacks.walkBonus],
+    tip:"Paella is a great one to cook together as a family on Saturday evening.", tipType:"blue" },
+
+  { name:"Sunday", type:"normal", cals:2100, walkDay:false, note:"Prep day · No latte",
+    meals:[ homeCoffee, breakfasts.bakedBeans, snacks.nutsOrange,
+      { type:"Lunch", name:"Roasted tomato & capsicum soup (batch)", desc:"Roast 6 tomatoes, 2 capsicums and 1 head of garlic at 200°C for 30 min. Blend with veg stock. Season well. Makes 4–5 serves.", serves:"Serves 4–5", cals:360 },
+      snacks.blissBall,
+      { type:"Dinner", name:"Chickpea & sweet potato stew", desc:"Fry onion, garlic, ginger. Add 1 tsp cumin, 1 tsp coriander, ½ tsp cinnamon. Add 2 tins chickpeas, 1 large diced sweet potato, 1 tin tomatoes, 400ml veg stock. Simmer 25 min. Serve with quinoa.", serves:"Serves 3 + leftovers", cals:840 },
+      { type:"Prep", name:"Sunday batch cook", desc:"Overnight oats (2 jars). Bliss balls. Brown rice batch. Black bean soup for Thu–Fri. Tomato soup for lunches. ~40 minutes.", serves:null, cals:0 }],
+    tip:"Roasting the tomatoes for soup while making dinner is great multi-tasking.", tipType:"green" },
+];
+
+// ─── WEEK 3 ──────────────────────────────────────────────────────────────────
+const week3 = [
+  { name:"Monday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.overnightOats, snacks.blissBall, lunches.tomatoSoup, snacks.hummusVeg,
+      { type:"Dinner", name:"Tofu & broccoli teriyaki with noodles", desc:"Pan-fry 450g firm tofu. Make teriyaki sauce (tamari, maple syrup, garlic, ginger, cornflour). Toss with broccoli florets and 270g cooked soba noodles. Garnish with sesame seeds and spring onion.", serves:"Serves 3", cals:810 }],
+    tip:"Leftover tomato soup from Sunday makes a warming winter Monday lunch.", tipType:"green" },
+
+  { name:"Tuesday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.granolaBowl, snacks.riceCakeAvo, lunches.pearRocketSalad, snacks.edamame,
+      { type:"Dinner", name:"Mexican rice bowl (fajita style)", desc:"Cook 240g brown rice. Char capsicum and red onion strips in a hot pan. Season with smoked paprika, cumin, chilli. Serve over rice with black beans, guacamole, salsa, coriander and lime.", serves:"Serves 3", cals:790 }, snacks.walkBonus],
+    tip:"The pear and rocket salad sounds fancy but takes 5 minutes — great midweek lunch.", tipType:"blue" },
+
+  { name:"Wednesday", type:"wed", cals:2100, walkDay:false, note:"Warhammer night · Latte included · Light lunch",
+    meals:[ latte, breakfasts.porridge, snacks.banana, lunches.quinoaSalad, wedFastFood ],
+    tip:"Warm porridge on a Wednesday morning sets you up well before the light lunch.", tipType:"amber" },
+
+  { name:"Thursday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.overnightOatsBanana, snacks.applePB, lunches.sweetPotatoWrap, snacks.blissBall,
+      { type:"Dinner", name:"Red lentil dhal (repeat — family favourite)", desc:"Fry onion, garlic, ginger. Add cumin, turmeric, garam masala. Add 300g red lentils, 2 tins tomatoes, 600ml water. Simmer 25 min. Stir through spinach. Serve over basmati rice.", serves:"Serves 3", cals:860 }, snacks.walkBonus],
+    tip:"Dhal is back this week — it's too good and too easy not to repeat. Makes great leftovers.", tipType:"green" },
+
+  { name:"Friday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.avoToast, snacks.blissBall, lunches.dahlia, snacks.banana,
+      { type:"Dinner", name:"Roasted vegetable & chickpea traybake", desc:"Toss 2 tins chickpeas, 1 diced sweet potato, 2 zucchini, 1 capsicum and 1 red onion in olive oil, smoked paprika and cumin. Roast at 200°C for 35 min. Serve over couscous with tahini drizzle and lemon.", serves:"Serves 3", cals:840 }],
+    tip:"Traybake = minimal washing up. Everything in one pan, in the oven, done.", tipType:"green" },
+
+  { name:"Saturday", type:"normal", cals:2300, walkDay:true, note:"Walk day · No latte · Family day",
+    meals:[ homeCoffee, breakfasts.pancakes, snacks.nutsAndFruit,
+      { type:"Lunch", name:"Loaded nachos (vegan)", desc:"Corn chips, black beans (tin, heated with cumin), guacamole, salsa, pickled jalapeños, coriander. A fun family Saturday lunch.", serves:"Serves 3", cals:520 },
+      snacks.riceCakeHummus,
+      { type:"Dinner", name:"Tofu laksa", desc:"Sauté onion, 2 tbsp laksa paste (vegan). Add 600ml veg stock and 400ml coconut milk. Add 300g tofu, rice noodles (200g dry), bean sprouts, bok choy. Simmer 10 min. Top with coriander and lime.", serves:"Serves 3", cals:800 }, snacks.walkBonus],
+    tip:"Nachos for Saturday lunch is a fun family treat that still fits the budget perfectly.", tipType:"blue" },
+
+  { name:"Sunday", type:"normal", cals:2100, walkDay:false, note:"Prep day · No latte",
+    meals:[ homeCoffee, breakfasts.mushroomToast, snacks.blissBall,
+      { type:"Lunch", name:"Minestrone soup (batch)", desc:"Batch of classic minestrone with zucchini, cannellini beans, tomato, wholegrain pasta and basil. Makes 4–5 serves for the week.", serves:"Serves 4–5", cals:420 },
+      snacks.nutsOrange,
+      { type:"Dinner", name:"Thai peanut noodles with tofu", desc:"Cook 270g rice noodles. Make peanut sauce (peanut butter, tamari, lime, garlic, chilli, ginger). Pan-fry 450g tofu, toss with noodles, shredded cabbage, carrot and spring onion.", serves:"Serves 3", cals:850 },
+      { type:"Prep", name:"Sunday batch cook", desc:"Overnight oats (2 jars). Bliss balls. Minestrone for lunches. Brown rice batch. Roasted veg tray.", serves:null, cals:0 }],
+    tip:"Thai peanut noodles are a big hit — make extra sauce and keep in the fridge.", tipType:"green" },
+];
+
+// ─── WEEK 4 ──────────────────────────────────────────────────────────────────
+const week4 = [
+  { name:"Monday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.overnightOats, snacks.blissBall, lunches.minestrone, snacks.hummusVeg,
+      { type:"Dinner", name:"Butter bean & kale stew", desc:"Fry onion, garlic and smoked paprika. Add 2 tins butter beans, 1 tin tomatoes, 400ml veg stock and a big bunch of kale (stems removed). Simmer 20 min. Serve with crusty rye bread.", serves:"Serves 3", cals:780 }],
+    tip:"Week 4 — you're in the rhythm now. Logging should feel natural by this point.", tipType:"green" },
+
+  { name:"Tuesday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.granolaBowl, snacks.riceCakeAvo, lunches.tabbouleh, snacks.edamame,
+      { type:"Dinner", name:"Sweet potato & black bean enchiladas", desc:"Fill 6 corn tortillas with mashed sweet potato, black beans and cumin. Arrange in baking dish, top with blended tomato sauce and cumin. Bake 25 min. Top with coriander, lime and sliced avocado.", serves:"Serves 3", cals:830 }, snacks.walkBonus],
+    tip:"Enchiladas are fun to make together — a good one for your wife and son to help with.", tipType:"blue" },
+
+  { name:"Wednesday", type:"wed", cals:2100, walkDay:false, note:"Warhammer night · Latte included · Light lunch",
+    meals:[ latte, breakfasts.pbBananaToast, snacks.banana, lunches.quinoaSalad, wedFastFood ],
+    tip:"Month in — you know the Wednesday drill. Light lunch, enjoy the night.", tipType:"amber" },
+
+  { name:"Thursday", type:"normal", cals:2300, walkDay:true, note:"Walk day · Latte included",
+    meals:[ latte, breakfasts.overnightOatsBanana, snacks.applePB, lunches.sweetPotatoWrap, snacks.blissBall,
+      { type:"Dinner", name:"Mushroom & tofu fried rice", desc:"Day-old brown rice works best. Fry garlic, ginger, 400g mushrooms and 300g tofu in hot pan. Add rice, tamari, sesame oil, frozen peas and corn. Toss 5 min on high heat. Top with spring onion and chilli.", serves:"Serves 3", cals:800 }, snacks.walkBonus],
+    tip:"Fried rice is the perfect use for batch rice from Sunday — high heat, quick and delicious.", tipType:"green" },
+
+  { name:"Friday", type:"normal", cals:2100, walkDay:false, note:"Office day · Latte included",
+    meals:[ latte, breakfasts.avoToast, snacks.blissBall, lunches.veggieWrap, snacks.banana,
+      { type:"Dinner", name:"Vegan pizza night", desc:"Use wholegrain pizza bases (Woolworths). Top with tomato paste, capsicum, mushroom, red onion, olives, roasted sweet potato and a drizzle of olive oil. Bake 15 min at 220°C. Finish with rocket and lemon.", serves:"Serves 3 (2 bases)", cals:850 }],
+    tip:"Pizza Friday! Keep portions sensible — 2–3 slices each and a big side salad.", tipType:"green" },
+
+  { name:"Saturday", type:"normal", cals:2300, walkDay:true, note:"Walk day · No latte · Family day",
+    meals:[ homeCoffee, breakfasts.pancakes, snacks.applePB,
+      { type:"Lunch", name:"Falafel & hummus plate", desc:"Woolworths sells ready-made vegan falafel (freezer section). Serve with hummus, pita, cucumber, tomato and pickled red onion. Easy family spread.", serves:"Serves 3", cals:500 },
+      snacks.nutsAndFruit,
+      { type:"Dinner", name:"Coconut & vegetable noodle soup", desc:"Simmer 800ml veg stock with 400ml coconut milk, 1 tbsp vegan red curry paste, lemongrass and lime leaves (dried ok). Add rice noodles, tofu, bok choy, mushrooms and bean sprouts. Finish with lime and coriander.", serves:"Serves 3", cals:790 }, snacks.walkBonus],
+    tip:"End of month — celebrate how far you've come. The habits are building.", tipType:"blue" },
+
+  { name:"Sunday", type:"normal", cals:2100, walkDay:false, note:"Prep day · No latte · End of month",
+    meals:[ homeCoffee, breakfasts.bakedBeans, snacks.nutsOrange,
+      { type:"Lunch", name:"Roasted cauliflower soup (batch)", desc:"Roast 1 large cauliflower head with garlic and olive oil at 200°C for 30 min. Blend with veg stock, pinch of nutmeg, squeeze of lemon. Makes 4–5 serves.", serves:"Serves 4–5", cals:320 },
+      snacks.blissBall,
+      { type:"Dinner", name:"Chickpea & spinach curry (month closer)", desc:"Fry onion, garlic, ginger. Add curry powder, cumin, turmeric. Add 2 tins chickpeas, 1 tin tomatoes, coconut milk, big bag of spinach. Simmer 20 min. Serve over basmati rice.", serves:"Serves 3", cals:820 },
+      { type:"Prep", name:"Week 5 / Month 2 prep", desc:"If continuing: overnight oats, bliss balls, rice batch, soup for lunches. Take a moment to review your Journable stats — you've done a full month!", serves:null, cals:0 }],
+    tip:"End of month! Check your weight and Garmin weekly averages. Adjust targets if needed — as you lose weight your calorie targets will need a small recalibration.", tipType:"green" },
+];
+
+const allWeeks = [week1, week2, week3, week4];
+
+// ─── SHOPPING LISTS ──────────────────────────────────────────────────────────
+const shopLists = [
   {
-    name: "Monday", type: "normal", cals: 2100, walkDay: false,
-    note: "Office day · Latte included",
-    meals: [
-      { type: "Latte", name: "McDonald's regular caramel soy latte", desc: "Your morning ritual — already counted.", serves: null, cals: 230 },
-      { type: "Breakfast", name: "Overnight oats", desc: "80g rolled oats soaked overnight in oat milk, topped with blueberries and 1 tbsp chia seeds. Prep Sunday night.", serves: null, cals: 330 },
-      { type: "Snack", name: "Apple + almond butter", desc: "1 medium apple, 1 tbsp almond butter.", serves: null, cals: 160 },
-      { type: "Lunch", name: "Big red lentil soup", desc: "Large bowl of red lentil, crushed tomato and baby spinach soup with 1 slice wholegrain bread. Batch on Sunday or make fresh.", serves: null, cals: 420 },
-      { type: "Snack", name: "Hummus & veggie sticks", desc: "3 tbsp hummus with cucumber, carrot and capsicum strips.", serves: null, cals: 160 },
-      { type: "Dinner", name: "Tofu & vegetable stir-fry with brown rice", desc: "450g firm tofu (cubed, pan-fried until golden) with broccolini, capsicum, bok choy, tamari, garlic and ginger. Serve over 240g cooked brown rice. Season with sesame oil and chilli flakes.", serves: "Serves 3", cals: 800 },
+    week: "Week 1",
+    theme: "Foundation week — stocking the pantry",
+    produce: [
+      ["Bananas","1 bunch"],["Apples","6"],["Oranges","4"],["Blueberries","2 punnets"],["Mixed berries","1 punnet"],
+      ["Cherry tomatoes","2 punnets"],["Baby spinach","200g bag"],["Kale","1 bunch"],["Broccolini","2 bunches"],
+      ["Capsicum (mixed)","4"],["Zucchini","3"],["Sweet potato","1.5kg bag"],["Cucumber","2"],
+      ["Carrots","1kg bag"],["Red onions","4"],["Brown onions","3"],["Garlic bulbs","2"],
+      ["Fresh ginger","1 piece"],["Portobello mushrooms","500g"],["Leek","2"],["Potato","4 medium"],
+      ["Avocado","3"],["Coriander","1 bunch"],["Lemon","3"],["Lime","3"],
+      ["Snow peas","150g"],["Bok choy","2 bunches"],["Cabbage (small)","½ head"],
     ],
-    tip: "Prep overnight oats Sunday night — takes 5 minutes and sets Monday up perfectly.", tipType: "green"
+    protein: [
+      ["Firm tofu","3 × 300g"],["Edamame (frozen, shelled)","400g"],["Hummus","400g tub"],
+      ["Oat milk (barista)","2L × 2"],["Vegan butter (Nuttelex)","250g"],
+    ],
+    pantry: [
+      ["Red lentils","1kg bag"],["Green/brown lentils","500g"],["Chickpeas (tins)","3 × 400g"],
+      ["Black beans (tins)","2 × 400g"],["Cannellini beans (tins)","2 × 400g"],
+      ["Crushed tomatoes (tins)","4 × 400g"],["Coconut milk light","2 × 400ml"],
+      ["Veg stock liquid","1L"],["Brown rice","1kg"],["Basmati rice","1kg"],["Quinoa","500g"],
+      ["Rolled oats","1kg"],["Wholegrain pasta","500g"],["Small corn tortillas","12-pack"],
+      ["Rice cakes (plain)","1 pack"],["Natural peanut butter","375g"],["Almond butter","250g"],
+      ["Tahini","300g"],["Tamari / soy sauce","250ml"],["Olive oil","500ml"],
+      ["Baked beans (low sugar)","2 × 420g tins"],["Chia seeds","200g"],["Mixed nuts","200g"],
+      ["Pumpkin seeds","150g"],["Medjool dates","200g"],["Vegan green curry paste","1 jar"],
+      ["Salsa (jar)","1 jar"],["Corn kernels (tin)","1 × 420g"],["Muesli (low sugar)","500g"],
+    ],
+    bread: [
+      ["Wholegrain bread loaf","1"],["Rye bread loaf","1"],["Wholegrain wraps","8-pack"],
+    ],
+    spice: [
+      ["Cumin (ground)","if needed"],["Turmeric","if needed"],["Smoked paprika","if needed"],
+      ["Cinnamon","if needed"],["Chilli flakes","if needed"],["Garam masala","if needed"],
+      ["Dried oregano","if needed"],["Sesame oil","small bottle"],
+    ],
   },
   {
-    name: "Tuesday", type: "normal", cals: 2300, walkDay: true,
-    note: "Walk day · Latte included · +200 cal budget",
-    meals: [
-      { type: "Latte", name: "McDonald's regular caramel soy latte", desc: "Your morning ritual — already counted.", serves: null, cals: 230 },
-      { type: "Breakfast", name: "Banana smoothie bowl", desc: "Blend 1 frozen banana, large handful spinach, 150ml oat milk. Pour into bowl, top with 30g muesli and fresh berries.", serves: null, cals: 360 },
-      { type: "Snack", name: "Rice cakes with avocado", desc: "2 plain rice cakes, ½ avocado mashed, pinch of chilli flakes and lemon juice.", serves: null, cals: 180 },
-      { type: "Lunch", name: "Chickpea salad wrap", desc: "Wholegrain wrap with mashed chickpeas (seasoned with cumin and lemon), cucumber, cherry tomatoes, red onion and a drizzle of tahini.", serves: null, cals: 450 },
-      { type: "Snack", name: "Edamame", desc: "100g shelled edamame, microwaved and lightly salted. Quick and filling.", serves: null, cals: 120 },
-      { type: "Dinner", name: "Black bean tacos", desc: "Drain and heat 2 × 400g tins black beans with smoked paprika, cumin, garlic and a splash of water. Serve in 6 small corn tortillas with shredded cabbage, salsa, sliced avocado and lime juice.", serves: "Serves 3", cals: 760 },
-      { type: "Walk bonus", name: "Extra snack (earned)", desc: "Your dog walk earns ~200–300 extra cal. Use on a banana, a small handful of nuts, or a slightly larger dinner portion.", serves: null, cals: 200 },
+    week: "Week 2",
+    theme: "New flavours — paella, shepherd's pie, poke bowl",
+    produce: [
+      ["Bananas","1 bunch"],["Apples","5"],["Oranges","4"],["Blueberries","1 punnet"],["Mixed berries","1 punnet"],
+      ["Cherry tomatoes","2 punnets"],["Baby spinach","200g bag"],["Kale","1 bunch"],
+      ["Capsicum (mixed)","5"],["Zucchini","4"],["Sweet potato","1kg"],["Cucumber","2"],
+      ["Carrots","1kg bag"],["Red onions","3"],["Brown onions","4"],["Garlic bulbs","2"],
+      ["Fresh ginger","1 piece"],["Tomatoes (large)","6 for roasting"],["Leek","2"],["Potato","5 medium"],
+      ["Avocado","3"],["Celery","1 bunch"],["Lemon","3"],["Lime","3"],["Pear","2"],["Rocket","120g bag"],
+      ["Spring onion","1 bunch"],["Frozen peas","400g bag"],
     ],
-    tip: "Tuesday is a walk day — log it on your Garmin and use the extra budget mindfully.", tipType: "blue"
+    protein: [
+      ["Firm tofu","3 × 300g"],["Edamame (frozen, shelled)","400g"],["Hummus","400g tub"],
+      ["Oat milk (barista)","2L × 2"],
+    ],
+    pantry: [
+      ["Red lentils","500g"],["Green/brown lentils","500g"],["Chickpeas (tins)","3 × 400g"],
+      ["Black beans (tins)","2 × 400g"],["Cannellini beans (tins)","1 × 400g"],
+      ["Crushed tomatoes (tins)","4 × 400g"],["Coconut milk light","2 × 400ml"],
+      ["Veg stock liquid","2L"],["Paella/arborio rice","400g"],["Basmati rice","500g"],
+      ["Brown rice","500g"],["Soba noodles (check vegan)","270g"],
+      ["Rice cakes","1 pack"],["Rolled oats","500g"],["Medjool dates","200g"],
+      ["Mixed nuts","150g"],["Saffron (pinch)","small jar"],["Tamari","250ml"],
+      ["Maple syrup","small bottle"],["Wholegrain bread","1 loaf"],["Rye bread","1 loaf"],
+      ["Wholegrain wraps","8-pack"],["Corn tortillas","12-pack"],
+    ],
+    bread: [
+      ["Wholegrain bread","1 loaf"],["Rye bread","1 loaf"],["Wholegrain wraps","8-pack"],
+    ],
+    spice: [
+      ["Curry powder","if needed"],["Coriander (ground)","if needed"],["Bay leaves","if needed"],
+    ],
   },
   {
-    name: "Wednesday", type: "wed", cals: 2100, walkDay: false,
-    note: "Warhammer night · Latte included · Light lunch to bank for fast food",
-    meals: [
-      { type: "Latte", name: "McDonald's regular caramel soy latte", desc: "Your morning ritual — already counted.", serves: null, cals: 230 },
-      { type: "Breakfast", name: "Toast with peanut butter & banana", desc: "2 slices wholegrain toast, 2 tbsp natural peanut butter, 1 sliced banana.", serves: null, cals: 400 },
-      { type: "Snack", name: "Orange", desc: "1 medium orange — light and refreshing.", serves: null, cals: 70 },
-      { type: "Lunch", name: "Light quinoa & roasted veg salad", desc: "80g cooked quinoa, leftover roasted sweet potato and capsicum, handful of kale, squeeze of lemon. Keep it light — you're banking cals for tonight.", serves: null, cals: 380 },
-      { type: "Warhammer night", name: "Fast food — planned flex", desc: "Budget ~1,000–1,100 cal for the night. Best options: veggie burger or bean wrap, side salad or corn instead of large chips. Avoid sugary drinks — water, diet cola or sparkling water.", serves: null, cals: 1020 },
+    week: "Week 3",
+    theme: "Finding rhythm — teriyaki, laksa, traybake",
+    produce: [
+      ["Bananas","1 bunch"],["Apples","5"],["Pear","2"],["Blueberries","1 punnet"],["Strawberries","1 punnet"],
+      ["Cherry tomatoes","2 punnets"],["Baby spinach","200g bag"],["Broccolini","2 bunches"],
+      ["Capsicum (mixed)","5"],["Zucchini","3"],["Sweet potato","1kg"],["Cucumber","2"],
+      ["Red onion","3"],["Brown onion","3"],["Garlic","2 bulbs"],["Fresh ginger","1 piece"],
+      ["Portobello mushrooms","500g"],["Bok choy","2 bunches"],["Spring onion","1 bunch"],
+      ["Bean sprouts","200g"],["Coriander","1 bunch"],["Lime","4"],["Lemon","2"],
+      ["Avocado","3"],["Corn chips (plain)","1 bag — for nachos"],["Jalapeños (jar)","1 small jar"],
+      ["Frozen peas","300g"],
     ],
-    tip: "Wednesday is your planned flex night — no guilt needed. The light lunch has already made room for it.", tipType: "amber"
+    protein: [
+      ["Firm tofu","3 × 300g"],["Edamame (frozen)","300g"],["Hummus","400g tub"],
+      ["Oat milk (barista)","2L × 2"],["Vegan laksa paste","1 jar"],
+    ],
+    pantry: [
+      ["Red lentils","500g"],["Chickpeas (tins)","3 × 400g"],["Black beans (tins)","2 × 400g"],
+      ["Cannellini beans (tins)","1 × 400g"],["Crushed tomatoes","3 × 400g"],
+      ["Coconut milk light","2 × 400ml"],["Veg stock","1L"],
+      ["Rice noodles","200g"],["Soba noodles","270g"],["Basmati rice","500g"],["Brown rice","500g"],
+      ["Couscous","400g"],["Bulgur wheat","400g"],["Rolled oats","500g"],["Muesli (low sugar)","500g"],
+      ["Medjool dates","150g"],["Mixed nuts","150g"],["Peanut butter","375g"],["Tahini","if low"],
+      ["Tamari","250ml"],["Sesame seeds","100g"],["Cornflour","small pack"],
+      ["Rye bread","1 loaf"],["Wholegrain wraps","8-pack"],["Corn tortillas","12-pack"],
+    ],
+    bread: [["Rye bread","1 loaf"],["Wholegrain wraps","8-pack"],["Corn tortillas","12-pack"]],
+    spice: [["Smoked paprika","if low"],["Cumin","if low"],["Chilli flakes","if low"]],
   },
   {
-    name: "Thursday", type: "normal", cals: 2300, walkDay: true,
-    note: "Walk day · Latte included · +200 cal budget",
-    meals: [
-      { type: "Latte", name: "McDonald's regular caramel soy latte", desc: "Your morning ritual — already counted.", serves: null, cals: 230 },
-      { type: "Breakfast", name: "Overnight oats (second jar)", desc: "Second jar from Sunday's prep. 80g oats, oat milk, sliced banana, cinnamon.", serves: null, cals: 340 },
-      { type: "Snack", name: "Walnuts & a piece of fruit", desc: "15g walnuts and 1 orange or pear.", serves: null, cals: 170 },
-      { type: "Lunch", name: "Veggie minestrone", desc: "Large bowl with wholegrain pasta, zucchini, cannellini beans, crushed tomato and fresh basil. Batch-cook to last Thu–Fri.", serves: null, cals: 420 },
-      { type: "Snack", name: "Rice cakes + hummus", desc: "2 rice cakes, 2 tbsp hummus.", serves: null, cals: 130 },
-      { type: "Dinner", name: "Baked sweet potato bowls", desc: "3 large sweet potatoes, baked until tender. Top each with a portion of spiced black beans (1 tin, cumin, garlic), corn kernels, guacamole (1 large avocado), fresh coriander and lime.", serves: "Serves 3", cals: 810 },
-      { type: "Walk bonus", name: "Extra snack (earned)", desc: "Dog walk earns ~200 cal extra. Use on fruit or a small bliss ball.", serves: null, cals: 200 },
+    week: "Week 4",
+    theme: "Full stride — pizza night, enchiladas, falafel",
+    produce: [
+      ["Bananas","1 bunch"],["Apples","5"],["Oranges","4"],["Blueberries","1 punnet"],["Mixed berries","1 punnet"],
+      ["Cherry tomatoes","2 punnets"],["Baby spinach","200g bag"],["Kale","1 bunch"],
+      ["Cauliflower","1 large head"],["Capsicum (mixed)","5"],["Zucchini","2"],["Sweet potato","1kg"],
+      ["Cucumber","2"],["Red onion","3"],["Brown onion","3"],["Garlic","2 bulbs"],["Fresh ginger","1 piece"],
+      ["Portobello mushrooms","400g"],["Bok choy","2 bunches"],["Lemongrass","2 stalks (or paste)"],
+      ["Bean sprouts","150g"],["Coriander","1 bunch"],["Lime","4"],["Lemon","2"],["Avocado","3"],
+      ["Rocket","120g bag"],["Olives (jar)","1 small jar"],["Frozen peas","300g"],
+      ["Spring onion","1 bunch"],
     ],
-    tip: "Batch-cook a big pot of minestrone today — it'll cover Thursday and Friday lunches.", tipType: "green"
-  },
-  {
-    name: "Friday", type: "normal", cals: 2100, walkDay: false,
-    note: "Office day · Latte included · End of week",
-    meals: [
-      { type: "Latte", name: "McDonald's regular caramel soy latte", desc: "Your morning ritual — already counted.", serves: null, cals: 230 },
-      { type: "Breakfast", name: "Avo toast with seeds", desc: "2 slices rye bread, ½ avocado, cherry tomatoes, pumpkin seeds, squeeze of lemon.", serves: null, cals: 390 },
-      { type: "Snack", name: "Bliss ball (homemade)", desc: "1–2 date-and-oat bliss balls from Sunday's batch. ~100 cal each.", serves: null, cals: 100 },
-      { type: "Lunch", name: "Leftover minestrone", desc: "Second serve from Thursday's batch. Add a slice of rye bread if hungry.", serves: null, cals: 420 },
-      { type: "Snack", name: "Banana", desc: "1 medium banana — quick, filling, easy.", serves: null, cals: 90 },
-      { type: "Dinner", name: "Mushroom & lentil ragu with pasta", desc: "Sauté 500g portobello mushrooms (sliced) with onion, garlic, carrot and zucchini. Add 1 tin crushed tomatoes, 200g cooked green lentils, dried herbs. Simmer 20 min. Serve over 300g cooked wholegrain pasta (dry: ~120g).", serves: "Serves 3", cals: 870 },
+    protein: [
+      ["Firm tofu","3 × 300g"],["Vegan falafel (frozen)","1 pack — freezer section"],
+      ["Edamame (frozen)","300g"],["Hummus","400g tub"],["Oat milk (barista)","2L × 2"],
     ],
-    tip: "Friday is end of week — if energy is low, the ragu is very forgiving. Swap pasta for rice if preferred.", tipType: "green"
-  },
-  {
-    name: "Saturday", type: "normal", cals: 2300, walkDay: true,
-    note: "Walk day · No latte · +200 cal budget · Family day",
-    meals: [
-      { type: "Breakfast", name: "Banana oat pancakes", desc: "Mash 2 ripe bananas, mix with 80g rolled oats and 100ml oat milk. Cook small pancakes in a non-stick pan. Top with fresh berries and a drizzle of maple syrup (1 tsp).", serves: null, cals: 420 },
-      { type: "Coffee", name: "Oat milk flat white (home)", desc: "Made at home — barista oat milk steamed, double shot. No latte today.", serves: null, cals: 90 },
-      { type: "Snack", name: "Apple & peanut butter", desc: "1 apple, 1 tbsp natural peanut butter.", serves: null, cals: 160 },
-      { type: "Lunch", name: "Big Buddha bowl", desc: "Brown rice (use batch from fridge), roasted capsicum and sweet potato, chickpeas (1 tin, tossed in olive oil and paprika and roasted 20 min), rocket, tahini drizzle.", serves: "Serves 3 (lunch together!)", cals: 480 },
-      { type: "Snack", name: "Mixed nuts & dried fruit", desc: "Small handful (20g) mixed nuts with a few pieces of dried mango.", serves: null, cals: 160 },
-      { type: "Dinner", name: "Thai green tofu curry", desc: "Fry 450g firm tofu until golden. Add 2 tbsp green curry paste (vegan), 2 tins light coconut milk, zucchini, snow peas, a splash of tamari and lime juice. Simmer 15 min. Serve over jasmine rice (240g cooked).", serves: "Serves 3", cals: 790 },
-      { type: "Walk bonus", name: "Extra budget", desc: "Dog walk or hike earns more cal — your Garmin will tell you. Spend on a treat or larger serve.", serves: null, cals: 200 },
+    pantry: [
+      ["Chickpeas (tins)","3 × 400g"],["Black beans (tins)","2 × 400g"],
+      ["Butter beans (tins)","2 × 400g"],["Crushed tomatoes","4 × 400g"],
+      ["Coconut milk light","2 × 400ml"],["Veg stock","1L"],
+      ["Wholegrain pizza bases","2 (bakery or packaged)"],["Rice noodles","200g"],
+      ["Basmati rice","500g"],["Brown rice","500g"],["Rolled oats","500g"],["Muesli","500g"],
+      ["Medjool dates","150g"],["Mixed nuts","150g"],["Peanut butter","if low"],
+      ["Tomato paste","1 tube"],["Vegan red curry paste","1 jar"],
+      ["Dried lime leaves","small pack (or use lime zest)"],
+      ["Tamari","if low"],["Olive oil","if low"],
+      ["Rye bread","1 loaf"],["Wholegrain wraps","8-pack"],["Corn tortillas","12-pack"],
+      ["Pita bread (vegan)","1 pack — for falafel plate"],
     ],
-    tip: "Saturday is your most flexible day. The dog walk earns you a treat — maybe an oat milk hot choc in the evening.", tipType: "blue"
-  },
-  {
-    name: "Sunday", type: "normal", cals: 2100, walkDay: false,
-    note: "Prep day · No latte · Batch cook",
-    meals: [
-      { type: "Breakfast", name: "Baked beans on rye toast", desc: "½ tin low-sugar baked beans on 2 slices rye toast with sliced tomato and black pepper.", serves: null, cals: 380 },
-      { type: "Coffee", name: "Oat milk flat white (home)", desc: "Home made, oat milk.", serves: null, cals: 90 },
-      { type: "Snack", name: "Apple & walnuts", desc: "1 apple and a small handful of walnuts (15g).", serves: null, cals: 160 },
-      { type: "Lunch", name: "Homemade leek, potato & pea soup", desc: "Sauté 2 leeks, add 3 diced potatoes, 500ml veg stock, 200g frozen peas. Simmer 20 min, blend partially. Season well. Makes 4–5 serves — lunch for Sun + leftovers for the week.", serves: "Serves 4–5", cals: 340 },
-      { type: "Snack", name: "Bliss ball (from batch)", desc: "1 date-and-oat bliss ball you're making today.", serves: null, cals: 100 },
-      { type: "Dinner", name: "Red lentil dhal", desc: "Fry 1 diced onion, 3 garlic cloves, 1 tbsp fresh ginger in oil. Add 2 tsp cumin, 1 tsp turmeric, 1 tsp garam masala. Add 300g red lentils (rinsed), 2 tins crushed tomatoes, 600ml water. Simmer 25 min until thick. Stir through big handful spinach. Serve over basmati rice.", serves: "Serves 3 (+ leftovers for Mon lunch)", cals: 860 },
-      { type: "Prep", name: "Sunday batch cook", desc: "While dinner simmers: 1) jar up 2 overnight oat jars for Mon & Thu. 2) Roll 8–10 date-and-oat bliss balls. 3) Cook a big pot of brown rice. 4) Roast a tray of sweet potato + capsicum for the week. Total: ~40 minutes.", serves: null, cals: 0 },
-    ],
-    tip: "Sunday prep is the engine of the whole plan. 40 minutes today saves you every evening this week.", tipType: "green"
+    bread: [["Rye bread","1 loaf"],["Wholegrain wraps","8-pack"],["Pita bread (vegan)","1 pack"]],
+    spice: [["Nutmeg","if needed"],["Smoked paprika","if low"],["Cumin","if low"]],
   },
 ];
 
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let activeWeek = 0;
 let activeDay = 0;
 
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderWeekTabs() {
+  document.getElementById('week-tabs').innerHTML = weeks.map((w,i)=>`
+    <button class="week-btn ${i===activeWeek?'active':''}" onclick="setWeek(${i})">${w.label}</button>`).join('');
+}
+
 function renderDayTabs() {
-  const el = document.getElementById('day-tabs');
-  el.innerHTML = days.map((d, i) => `
-    <button class="day-btn ${d.type === 'wed' ? 'wed' : ''} ${i === activeDay ? 'active' : ''}"
-      onclick="setDay(${i})">${d.name.slice(0,3)}</button>
-  `).join('');
+  const days = allWeeks[activeWeek];
+  document.getElementById('day-tabs').innerHTML = days.map((d,i)=>`
+    <button class="day-btn ${d.type==='wed'?'wed':''} ${i===activeDay?'active':''}"
+      onclick="setDay(${i})">${d.name.slice(0,3)}</button>`).join('');
 }
 
 function renderDay() {
-  const d = days[activeDay];
-  const pillClass = d.type === 'wed' ? 'cal-amber' : d.walkDay ? 'cal-blue' : 'cal-green';
-  const pillText = d.walkDay ? `${d.cals} cal (walk day)` : d.type === 'wed' ? `${d.cals} cal (flex)` : `${d.cals} cal target`;
-
-  const mealsHTML = d.meals.map(m => `
+  const d = allWeeks[activeWeek][activeDay];
+  const pillClass = d.type==='wed'?'cal-amber':d.walkDay?'cal-blue':'cal-green';
+  const pillText = d.walkDay?`${d.cals} cal (walk)`:d.type==='wed'?`${d.cals} cal (flex)`:`${d.cals} cal`;
+  const mealsHTML = d.meals.map(m=>`
     <div class="meal-item">
       <div class="meal-type-label">${m.type}</div>
       <div>
         <div class="meal-name">${m.name}</div>
         <div class="meal-desc">${m.desc}</div>
-        ${m.serves ? `<div class="meal-serves">${m.serves}</div>` : ''}
+        ${m.serves?`<div class="meal-serves">${m.serves}</div>`:''}
       </div>
-      <div class="meal-cal">${m.cals > 0 ? '~' + m.cals : ''}</div>
+      <div class="meal-cal">${m.cals>0?'~'+m.cals:''}</div>
     </div>`).join('');
-
+  document.getElementById('day-label').textContent = weeks[activeWeek].theme;
   document.getElementById('day-content').innerHTML = `
     <div class="day-card">
       <div class="day-head">
@@ -671,21 +589,46 @@ function renderDay() {
     </div>`;
 }
 
+function renderShop() {
+  document.getElementById('shop-content').innerHTML = shopLists.map(s=>`
+    <div class="shop-week-label">${s.week}</div>
+    <div class="shop-sub">${s.theme}. Check your pantry before shopping — staples carry over.</div>
+    <div class="shop-grid">
+      <div class="shop-card">
+        <div class="shop-card-head produce">Fresh produce</div>
+        <div class="shop-items">${s.produce.map(i=>`<div class="shop-item"><span class="shop-item-name">${i[0]}</span><span class="shop-item-qty">${i[1]}</span></div>`).join('')}</div>
+      </div>
+      <div class="shop-card">
+        <div class="shop-card-head protein">Protein & chilled</div>
+        <div class="shop-items">${s.protein.map(i=>`<div class="shop-item"><span class="shop-item-name">${i[0]}</span><span class="shop-item-qty">${i[1]}</span></div>`).join('')}</div>
+        <div class="shop-card-head bread" style="margin-top:1px;">Bread & bakery</div>
+        <div class="shop-items">${s.bread.map(i=>`<div class="shop-item"><span class="shop-item-name">${i[0]}</span><span class="shop-item-qty">${i[1]}</span></div>`).join('')}</div>
+        <div class="shop-card-head spice" style="margin-top:1px;">Spices (check first)</div>
+        <div class="shop-items">${s.spice.map(i=>`<div class="shop-item"><span class="shop-item-name">${i[0]}</span><span class="shop-item-qty">${i[1]}</span></div>`).join('')}</div>
+      </div>
+      <div class="shop-card" style="grid-column:1/-1;">
+        <div class="shop-card-head pantry">Pantry, tins & dry goods</div>
+        <div class="shop-items" style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px;">${s.pantry.map(i=>`<div class="shop-item"><span class="shop-item-name">${i[0]}</span><span class="shop-item-qty">${i[1]}</span></div>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function setWeek(i) {
+  activeWeek = i; activeDay = 0;
+  renderWeekTabs(); renderDayTabs(); renderDay();
+}
 function setDay(i) {
-  activeDay = i;
-  renderDayTabs();
-  renderDay();
+  activeDay = i; renderDayTabs(); renderDay();
+}
+function showMain(tab, btn) {
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  btn.classList.add('active');
 }
 
-function showTab(tab) {
-  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('pane-' + tab).classList.add('active');
-  event.target.classList.add('active');
-}
-
-renderDayTabs();
-renderDay();
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderWeekTabs(); renderDayTabs(); renderDay(); renderShop();
 </script>
 </body>
 </html>
