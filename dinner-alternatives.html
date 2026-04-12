@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weeknight Dinner Alternatives</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:#1e5631;--green-mid:#2d7a47;--green-light:#4caf78;--green-pale:#e8f5ee;
+    --amber:#d47c0f;--amber-pale:#fef3dc;--blue:#1a6b9a;--blue-pale:#e3f2fd;
+    --red:#b91c1c;--red-pale:#fee2e2;
+    --ink:#1c1c1c;--muted:#707070;--border:#e4dfd6;--surface:#f9f6f0;--white:#fff;
+    --radius:14px;--radius-sm:9px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--surface);color:var(--ink);font-size:15px;line-height:1.6;}
+
+  .hero{background:var(--green);color:white;padding:32px 20px 24px;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04);}
+  .hero-tag{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green-light);margin-bottom:6px;font-weight:700;}
+  .hero h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;line-height:1.2;margin-bottom:8px;}
+  .hero-sub{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;max-width:320px;}
+
+  .filter-bar{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;background:white;border-bottom:1px solid var(--border);scrollbar-width:none;}
+  .filter-bar::-webkit-scrollbar{display:none;}
+  .filter-btn{flex-shrink:0;padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:white;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .filter-btn.active{background:var(--green);color:white;border-color:var(--green);}
+
+  .section-head{padding:18px 20px 10px;}
+  .section-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--green);}
+  .section-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .cards{display:flex;flex-direction:column;gap:12px;padding:0 20px 24px;}
+  .card{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:opacity 0.2s;}
+  .card.hidden{display:none;}
+  .card-head{padding:13px 16px;border-bottom:1px solid #f0ede6;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .card-name{font-size:15px;font-weight:700;color:var(--ink);line-height:1.3;}
+  .card-serves{font-size:11px;color:var(--green-mid);font-weight:600;margin-top:3px;}
+  .card-badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+  .badge{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;}
+  .badge-time{background:var(--green-pale);color:var(--green);}
+  .badge-cal{background:var(--blue-pale);color:var(--blue);}
+  .badge-type-pasta{background:#f3f0fb;color:#5c3fa3;}
+  .badge-type-rice{background:var(--amber-pale);color:var(--amber);}
+  .badge-type-noodles{background:#fce7f3;color:#9d174d;}
+  .badge-type-tacos{background:var(--red-pale);color:var(--red);}
+  .badge-type-soup{background:var(--blue-pale);color:var(--blue);}
+  .badge-type-tofu{background:var(--green-pale);color:var(--green-mid);}
+  .badge-type-beans{background:#fff8e6;color:#92580a;}
+
+  .card-body{padding:12px 16px;}
+  .card-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+  .card-steps{margin:0;padding:0;list-style:none;}
+  .card-step{display:flex;gap:10px;margin-bottom:6px;font-size:13px;color:var(--ink);}
+  .step-num{width:20px;height:20px;border-radius:50%;background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .card-tip{margin-top:10px;padding:8px 11px;background:var(--green-pale);border-radius:var(--radius-sm);font-size:12px;color:var(--green);line-height:1.5;}
+
+  .empty-state{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px;}
+
+  .footer{background:var(--green);color:rgba(255,255,255,0.7);font-size:12px;padding:18px 20px;text-align:center;line-height:1.6;}
+  .footer strong{color:white;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Weeknight alternatives · all under 30 min</div>
+  <h1>Dinner<br>Alternatives</h1>
+  <div class="hero-sub">When the mood doesn't match the plan. All vegan, all quick, all serve 3. No pumpkin, hummus, avocado, brown rice or quinoa. No raw tomato.</div>
+</div>
+
+<div class="filter-bar">
+  <a href="index.html" class="filter-btn" style="text-decoration:none;color:var(--green);border-color:var(--green);">← Back</a>
+  <button class="filter-btn active" onclick="filter('all',this)">All</button>
+  <button class="filter-btn" onclick="filter('pasta',this)">Pasta</button>
+  <button class="filter-btn" onclick="filter('rice',this)">Rice</button>
+  <button class="filter-btn" onclick="filter('noodles',this)">Noodles</button>
+  <button class="filter-btn" onclick="filter('tacos',this)">Tacos</button>
+  <button class="filter-btn" onclick="filter('soup',this)">Soup</button>
+  <button class="filter-btn" onclick="filter('tofu',this)">Tofu</button>
+  <button class="filter-btn" onclick="filter('beans',this)">Beans</button>
+</div>
+
+<div class="section-head">
+  <div class="section-title">Quick swap dinners</div>
+  <div class="section-sub">All serve 3. Tap a category to filter. ~600–900 cal per serve.</div>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<div class="footer"><strong>All alternatives follow your preferences.</strong><br>No pumpkin · no hummus · no avocado · no brown rice · no quinoa · no raw tomato. Dinners serve 3.</div>
+
+<script>
+const meals = [
+  {
+    name: "Spaghetti aglio e olio with white beans",
+    type: "pasta",
+    time: "20 min",
+    cals: "~780 cal",
+    serves: "Serves 3",
+    desc: "A pantry classic. Simple, rich and deeply satisfying.",
+    steps: [
+      "Cook 300g wholegrain spaghetti until al dente.",
+      "While pasta cooks, gently fry 6 sliced garlic cloves and chilli flakes in 3 tbsp olive oil until golden (not brown).",
+      "Add 1 tin drained white beans and warm through 2 min.",
+      "Toss in drained pasta with a splash of pasta water. Toss vigorously to emulsify.",
+      "Season generously with salt, black pepper and fresh parsley."
+    ],
+    tip: "The pasta water is the sauce — don't skip it. Reserve a big mugful before draining."
+  },
+  {
+    name: "Tofu teriyaki with jasmine rice",
+    type: "tofu rice",
+    time: "25 min",
+    cals: "~800 cal",
+    serves: "Serves 3",
+    desc: "Sweet, sticky, satisfying. The whole family reliably loves this one.",
+    steps: [
+      "Cook jasmine rice (240g dry). Use batch rice from fridge if available — saves 20 min.",
+      "Mix teriyaki sauce: 3 tbsp tamari, 2 tbsp maple syrup, 1 tsp sesame oil, 1 tsp grated ginger, 1 tsp cornflour dissolved in 2 tbsp water.",
+      "Pan-fry 450g firm tofu (cubed) in a hot pan until golden on all sides, ~8 min.",
+      "Pour sauce over tofu and toss until sticky and glazed, ~2 min.",
+      "Steam broccolini or bok choy alongside. Serve over rice, sprinkle sesame seeds."
+    ],
+    tip: "Double the sauce and keep half in the fridge — it lasts a week and works on anything."
+  },
+  {
+    name: "Chickpea & spinach curry",
+    type: "rice beans",
+    time: "25 min",
+    cals: "~820 cal",
+    serves: "Serves 3",
+    desc: "A proper curry from pantry staples. No chopping beyond an onion.",
+    steps: [
+      "Fry 1 diced onion in olive oil 5 min. Add 3 minced garlic cloves and 1 tsp grated ginger.",
+      "Add 2 tsp curry powder, 1 tsp cumin, ½ tsp turmeric. Stir 1 min.",
+      "Add 2 tins chickpeas (drained), 1 tin crushed tomatoes, 100ml coconut milk. Simmer 12 min.",
+      "Stir through a big bag of baby spinach until wilted.",
+      "Serve over basmati rice. Season well with salt and a squeeze of lemon."
+    ],
+    tip: "Makes great leftovers — the flavour improves overnight."
+  },
+  {
+    name: "Peanut butter noodles with tofu",
+    type: "noodles tofu",
+    time: "20 min",
+    cals: "~830 cal",
+    serves: "Serves 3",
+    desc: "Rich, nutty and crowd-pleasing. Your son will probably love this one.",
+    steps: [
+      "Cook 270g soba or rice noodles per packet instructions. Drain and rinse under cold water.",
+      "Make sauce: 3 tbsp peanut butter, 2 tbsp tamari, 1 tbsp lime juice, 1 tsp sesame oil, 1 tsp grated ginger, 1 tsp maple syrup, 2 tbsp warm water. Whisk until smooth.",
+      "Pan-fry 300g cubed firm tofu until golden. Add shredded cabbage and carrot, toss 2 min.",
+      "Add noodles and sauce. Toss everything together over medium heat 2 min.",
+      "Top with spring onion, sesame seeds and extra lime."
+    ],
+    tip: "Make extra sauce and keep in the fridge for up to a week — works as a dressing too."
+  },
+  {
+    name: "Black bean & capsicum tacos",
+    type: "tacos beans",
+    time: "20 min",
+    cals: "~760 cal",
+    serves: "Serves 3 (6 tacos)",
+    desc: "Fast, fun and hands-on. Great for a casual Tuesday vibe.",
+    steps: [
+      "Heat 2 × 400g tins black beans (drained) with 1 tsp smoked paprika, 1 tsp cumin, 1 minced garlic clove, salt and a splash of water. Simmer 5 min.",
+      "Char capsicum strips and red onion in a hot dry pan 3–4 min.",
+      "Warm 6 small corn tortillas in a dry pan or directly over a gas flame.",
+      "Fill tacos with beans, charred veg, shredded cabbage and salsa.",
+      "Finish with lime juice and coriander."
+    ],
+    tip: "Charring the capsicum in a dry pan (no oil) adds a smoky depth that makes these taste much fancier than 20 minutes should allow."
+  },
+  {
+    name: "Butter bean & kale stew",
+    type: "soup beans",
+    time: "25 min",
+    cals: "~750 cal",
+    serves: "Serves 3",
+    desc: "Thick, warming and deeply savoury. Pairs beautifully with crusty rye bread.",
+    steps: [
+      "Fry 1 diced onion and 4 garlic cloves in olive oil 5 min. Add 2 tsp smoked paprika.",
+      "Add 2 tins butter beans (drained), 1 tin crushed tomatoes and 400ml veg stock. Stir well.",
+      "Simmer 12 min. Add a big bunch of kale (stems removed, leaves roughly torn). Stir until wilted, 3 min.",
+      "Season with salt, pepper and lemon juice.",
+      "Serve with 2 slices rye bread each for dipping."
+    ],
+    tip: "This is even better the next day — make a double batch and have leftovers for lunch."
+  },
+  {
+    name: "Lentil & vegetable soup",
+    type: "soup",
+    time: "30 min",
+    cals: "~680 cal",
+    serves: "Serves 3",
+    desc: "Lighter option for when you want something simple and low effort.",
+    steps: [
+      "Fry 1 diced onion, 2 carrots and 2 celery stalks in olive oil 5 min.",
+      "Add 3 minced garlic cloves, 1 tsp cumin, ½ tsp turmeric. Stir 1 min.",
+      "Add 200g red lentils (rinsed), 1 tin crushed tomatoes and 1L veg stock. Bring to boil.",
+      "Simmer 20 min until lentils are soft.",
+      "Stir through baby spinach. Season with salt, pepper and lemon juice. Serve with rye bread."
+    ],
+    tip: "Lower calorie night — add a piece of rye toast per person to bring it up if needed."
+  },
+  {
+    name: "Mushroom fried rice",
+    type: "rice tofu",
+    time: "15 min",
+    cals: "~790 cal",
+    serves: "Serves 3",
+    desc: "The perfect use for batch rice from the fridge. Fastest dinner on this list.",
+    steps: [
+      "Heat a large pan or wok on very high heat. Add oil.",
+      "Fry 400g sliced mushrooms and 300g cubed tofu until golden, ~5 min.",
+      "Add 3 minced garlic cloves and 1 tsp grated ginger. Toss 1 min.",
+      "Add 3 cups cold batch basmati rice. Break up clumps and fry on high heat 3 min.",
+      "Add 3 tbsp tamari, 1 tsp sesame oil, frozen peas and corn. Toss 2 min. Top with spring onion."
+    ],
+    tip: "Day-old cold rice is essential for good fried rice — fresh rice goes soggy. This is why the Sunday rice batch matters."
+  },
+  {
+    name: "Cannellini bean & rosemary pasta",
+    type: "pasta beans",
+    time: "20 min",
+    cals: "~810 cal",
+    serves: "Serves 3",
+    desc: "Italian comfort food at its simplest. Pantry meal, zero shopping needed.",
+    steps: [
+      "Cook 300g wholegrain pasta. Reserve 1 cup pasta water before draining.",
+      "Fry 4 garlic cloves and 1 sprig rosemary (or ½ tsp dried) in 2 tbsp olive oil.",
+      "Add 2 tins cannellini beans (drained). Mash about half with the back of a spoon to thicken.",
+      "Add pasta water gradually to make a creamy sauce. Toss in pasta.",
+      "Season with salt, pepper, lemon zest and parsley."
+    ],
+    tip: "Mashing half the beans creates a sauce without any cream — a clever trick that makes this feel indulgent."
+  },
+  {
+    name: "Tofu & bok choy stir-fry with noodles",
+    type: "noodles tofu",
+    time: "20 min",
+    cals: "~780 cal",
+    serves: "Serves 3",
+    desc: "Light but filling. A step away from the rice stir-fry when you want something different.",
+    steps: [
+      "Cook 270g soba noodles. Drain and rinse.",
+      "Pan-fry 450g cubed firm tofu until golden. Set aside.",
+      "In the same pan, fry 3 garlic cloves and ginger 1 min. Add 3 heads bok choy (halved) and broccolini.",
+      "Add 3 tbsp tamari, 1 tbsp oyster-free sauce or hoisin, splash of water. Toss 2 min.",
+      "Return tofu and add noodles. Toss everything together. Top with sesame seeds."
+    ],
+    tip: "Hoisin sauce (check label is vegan) adds a great depth here. Woolworths stocks it in the Asian foods aisle."
+  },
+  {
+    name: "Red lentil dhal with basmati",
+    type: "rice beans",
+    time: "30 min",
+    cals: "~860 cal",
+    serves: "Serves 3 + leftovers",
+    desc: "Your reliable Sunday batch dinner — also works any weeknight. Make extra for tomorrow's lunch.",
+    steps: [
+      "Fry 1 diced onion, 4 garlic cloves and 1 tsp grated ginger in oil 5 min.",
+      "Add 2 tsp cumin, 1 tsp turmeric, 1 tsp garam masala. Stir 1 min.",
+      "Add 250g red lentils (rinsed), 2 tins crushed tomatoes and 500ml water. Bring to boil.",
+      "Simmer 20 min until thick. Stir through baby spinach.",
+      "Serve over basmati rice. Season well with salt and lemon."
+    ],
+    tip: "If you're making this on a weeknight, double the batch — tomorrow's lunch is sorted with zero effort."
+  },
+  {
+    name: "Sweet potato & black bean enchiladas",
+    type: "rice beans",
+    time: "30 min",
+    cals: "~830 cal",
+    serves: "Serves 3",
+    desc: "A bit more involved but completely worth it. Great for a Friday or a night you have a bit more time.",
+    steps: [
+      "Microwave 2 large sweet potatoes 8 min until soft. Scoop out flesh and mash.",
+      "Mix mashed sweet potato with 1 tin black beans, 1 tsp cumin, 1 tsp smoked paprika and salt.",
+      "Divide filling across 6 corn tortillas and roll tightly. Place in a baking dish.",
+      "Pour over blended tomato sauce (1 tin crushed tomatoes blended with cumin and garlic).",
+      "Bake at 200°C for 20 min. Top with coriander and lime."
+    ],
+    tip: "Microwaving the sweet potato saves 30 minutes vs baking. Game-changer for weeknights."
+  },
+];
+
+function filter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    if (type === 'all' || c.dataset.type.includes(type)) {
+      c.classList.remove('hidden');
+    } else {
+      c.classList.add('hidden');
+    }
+  });
+}
+
+function render() {
+  const container = document.getElementById('cards');
+  const typeColors = {
+    pasta:'badge-type-pasta', rice:'badge-type-rice', noodles:'badge-type-noodles',
+    tacos:'badge-type-tacos', soup:'badge-type-soup', tofu:'badge-type-tofu', beans:'badge-type-beans'
+  };
+  container.innerHTML = meals.map(m => {
+    const types = m.type.split(' ');
+    const typeBadges = types.map(t => `<span class="badge ${typeColors[t]||'badge-type-beans'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('');
+    const steps = m.steps.map((s,i) => `<li class="card-step"><span class="step-num">${i+1}</span><span>${s}</span></li>`).join('');
+    return `
+      <div class="card" data-type="${m.type}">
+        <div class="card-head">
+          <div>
+            <div class="card-name">${m.name}</div>
+            <div class="card-serves">${m.serves}</div>
+          </div>
+          <div class="card-badges">
+            <span class="badge badge-time">${m.time}</span>
+            <span class="badge badge-cal">${m.cals}</span>
+            ${typeBadges}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">${m.desc}</div>
+          <ul class="card-steps">${steps}</ul>
+          <div class="card-tip">${m.tip}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>
